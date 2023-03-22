@@ -3,4 +3,4 @@ WORKDIR /app
 COPY . /app
 RUN yarn install
 EXPOSE 3000
-CMD node app.js
+CMD node server.js
