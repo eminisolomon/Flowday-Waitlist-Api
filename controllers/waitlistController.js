@@ -36,8 +36,8 @@ const WaitList = asyncHandler(async (req, res) => {
     //send waitlist mail
     const subject = "Waitlist Confirmation";
     const send_to = email;
-    const sent_from = "SeemeTracker App <hello@seemetracker.com>";
-    const reply_to = "no-reply@seemetracker.com";
+    const sent_from = "Flowday App <contact@flowday.net";
+    const reply_to = "no-reply@flowday.net";
     const template = "waitlist";
 
     try {
