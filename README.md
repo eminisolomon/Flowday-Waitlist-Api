@@ -1,1 +1,1 @@
-# FlowdayWaitlistAPI
+# seemetracker-waitlist-api
