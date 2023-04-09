@@ -6,12 +6,17 @@ const sendEmail = require("../utils/sendEmail");
 
 const WaitList = asyncHandler(async (req, res) => {
 
-    const { email } = req.body;
+    const { email, name } = req.body;
 
     // Validation
     if  (!email) {
         res.status(400);
         throw new Error("Please add your email");
+    }
+
+    if (!name) {
+        res.status(400);
+        throw new Error("Please add your name");
     }
 
     // Check if email exist
@@ -26,7 +31,8 @@ const WaitList = asyncHandler(async (req, res) => {
     }   else {
         Waitlist.create({
             _id: new mongoose.Types.ObjectId(),
-            email
+            email,
+            name
         })
 
 
@@ -58,7 +64,34 @@ const WaitList = asyncHandler(async (req, res) => {
 
 });
 
+const sendEmailToWaitlist = asyncHandler(async (req, res) => {
+    const { title, content } = req.body;
+
+    // Get all emails and names in database
+    const waitlistUsers = await Waitlist.find({}).select("email name -_id");
+  
+    // Send email to each email in database
+    for (let i = 0; i < waitlistUsers.length; i++) {
+      const user = waitlistUsers[i];
+      const subject = title;
+      const send_to = user.email;
+      const sent_from = "Flowday App <hello@seemetracker.com";
+      const reply_to = "no-reply@flowday.net";
+      const template = "content";
+      const name = user.name;
+      const emailContent = content;
+  
+      try {
+        await sendEmail(subject, send_to, sent_from, reply_to, template, name, emailContent);
+      } catch (error) {
+        console.log(`Error sending email to ${send_to}: ${error}`);
+      }
+    }
+  
+    res.status(200).json({ success: true, message: "Emails sent to waitlist" });
+  });  
 
 module.exports = {
     WaitList,
+    sendEmailToWaitlist,
 };

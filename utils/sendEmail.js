@@ -10,7 +10,7 @@ const sendEmail = async (
     reply_to,
     template,
     name,
-    link
+    emailContent
 ) => {
   // Create Email Transporter
     const transporter = nodemailer.createTransport({
@@ -27,12 +27,12 @@ const sendEmail = async (
 
     const handlebarOptions = {
     viewEngine: {
-        extName: ".handlebars",
+        extName: ".hbs",
         partialsDir: path.resolve("./email"),
         defaultLayout: false,
     },
     viewPath: path.resolve("./email"),
-    extName: ".handlebars",
+    extName: ".hbs",
     };
 
     transporter.use("compile", hbs(handlebarOptions));
@@ -47,7 +47,7 @@ const sendEmail = async (
     template, // String
     context: {
         name,
-        link,
+        emailContent,
     },
     };
 

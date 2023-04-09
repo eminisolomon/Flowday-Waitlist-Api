@@ -13,6 +13,10 @@ const waitlistSchema = mongoose.Schema(
                 "Please enter a valid email"
             ]
         },
+        name: {
+            type: "string",
+            required: true,
+        },
         createdAt: {
             type: Date,
             default: Date.now,
